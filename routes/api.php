@@ -44,4 +44,5 @@ Route::group([
     Route::get('order/selesai',[OrderController::class, 'selesai']);
     Route::post('order/ubah_status/{order}',[OrderController::class, 'ubah_status']);
 
+    Route::get('reports',[OrderController::class, 'index']);
 });
