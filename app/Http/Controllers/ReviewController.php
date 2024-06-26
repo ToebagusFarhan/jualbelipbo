@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 
-class MemberController extends Controller implements HasMiddleware
+class ReviewController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.
@@ -26,9 +26,9 @@ class MemberController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        $members = Member::all();
+        $reviews = Review::all();
         return response()->json([
-            'data' => $members
+            'data' => $reviews
         ]);
     }
 
@@ -47,15 +47,12 @@ class MemberController extends Controller implements HasMiddleware
     {
 
         $validator = Validator::make($request->all(), [
-            'nama_member' => 'required',
-            'provinsi' => 'required',
-            'kabupaten' => 'required',
-            'kecamatan' => 'required',
-            'detail_alamat' => 'required',
-            'no_hp' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'id_memberi' => 'required',
+            'id_produk' => 'required',
+            'review' => 'required',
+            'rating' => 'required',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation error',
@@ -65,17 +62,18 @@ class MemberController extends Controller implements HasMiddleware
 
         $input = $request->all();
 
-        $Member = Member::create($input);
+
+        $Review = Review::create($input);
 
         return response()->json([
-            'data' => $Member
+            'data' => $Review
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Member $Member)
+    public function show(Review $Review)
     {
         //
     }
@@ -83,7 +81,7 @@ class MemberController extends Controller implements HasMiddleware
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Member $Member)
+    public function edit(Review $Review)
     {
         //
     }
@@ -91,19 +89,16 @@ class MemberController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Member $Member)
+    public function update(Request $request, Review $Review)
     {
 
         $validator = Validator::make($request->all(), [
-            'nama_member' => 'required',
-            'provinsi' => 'required',
-            'kabupaten' => 'required',
-            'kecamatan' => 'required',
-            'detail_alamat' => 'required',
-            'no_hp' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'id_memberi' => 'required',
+            'id_produk' => 'required',
+            'review' => 'required',
+            'rating' => 'required',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation error',
@@ -114,26 +109,25 @@ class MemberController extends Controller implements HasMiddleware
         $input = $request->all();
 
 
-
-        $Member->update($input);
+        $Review->update($input);
 
         return response()->json([
-            'message' => 'Member updated successfully',
-            'data' => $Member
+            'message' => 'Review updated successfully',
+            'data' => $Review
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Member $Member)
+    public function destroy(Review $Review)
     {
 
-        File::delete('uploads/' . $Member->gambar);
-        $Member->delete();
+        File::delete('uploads/' . $Review->gambar);
+        $Review->delete();
 
         return response()->json([
-            'message' => 'Member deleted successfully'
+            'message' => 'Review deleted successfully'
         ]);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Testimoni;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -69,17 +68,17 @@ class TestimoniController extends Controller implements HasMiddleware
             $input['gambar'] = $nama_gambar;
         }
 
-        $testimonis = Testimoni::create($input);
+        $Testimoni = Testimoni::create($input);
 
         return response()->json([
-            'data' => $testimonis
+            'data' => $Testimoni
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Testimoni $testimonis)
+    public function show(Testimoni $Testimoni)
     {
         //
     }
@@ -87,7 +86,7 @@ class TestimoniController extends Controller implements HasMiddleware
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Testimoni $testimonis)
+    public function edit(Testimoni $Testimoni)
     {
         //
     }
@@ -95,7 +94,7 @@ class TestimoniController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Testimoni $testimonis)
+    public function update(Request $request, Testimoni $Testimoni)
     {
 
         $validator = Validator::make($request->all(), [
@@ -113,7 +112,7 @@ class TestimoniController extends Controller implements HasMiddleware
         $input = $request->all();
 
         if ($request->has('gambar')) {
-            File::delete('uploads/' . $testimonis->gambar);
+            File::delete('uploads/' . $Testimoni->gambar);
             $gambar = $request->file('gambar');
             $nama_gambar = time() . rand(1, 9) . '.'  . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
@@ -123,22 +122,22 @@ class TestimoniController extends Controller implements HasMiddleware
         }
 
 
-        $testimonis->update($input);
+        $Testimoni->update($input);
 
         return response()->json([
-            'message' => 'Testimonis updated successfully',
-            'data' => $testimonis
+            'message' => 'Testimoni updated successfully',
+            'data' => $Testimoni
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Testimoni $testimonis)
+    public function destroy(Testimoni $Testimoni)
     {
 
-        File::delete('uploads/' . $testimonis->gambar);
-        $testimonis->delete();
+        File::delete('uploads/' . $Testimoni->gambar);
+        $Testimoni->delete();
 
         return response()->json([
             'message' => 'Testimoni deleted successfully'
