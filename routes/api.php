@@ -31,18 +31,18 @@ Route::group([
         'subcategories' => SubcategoryController::class,
         'sliders' => SliderController::class,
         'products' => ProductController::class,
-        'members'=> MemberController::class,
-        'testimonis' =>TestimoniController::class,
+        'members' => MemberController::class,
+        'testimonis' => TestimoniController::class,
         'reviews' => ReviewController::class,
         'orders' => OrderController::class,
     ]);
 
-    Route::get('order/dikonfirmasi',[OrderController::class, 'dikonfirmasi']);
-    Route::get('order/dikemas',[OrderController::class, 'dikemas']);
-    Route::get('order/dikirim',[OrderController::class, 'dikirim']);
-    Route::get('order/diterima',[OrderController::class, 'diterima']);
-    Route::get('order/selesai',[OrderController::class, 'selesai']);
-    Route::post('order/ubah_status/{order}',[OrderController::class, 'ubah_status']);
+    Route::get('order/dikonfirmasi', [OrderController::class, 'dikonfirmasi']);
+    Route::get('order/dikemas', [OrderController::class, 'dikemas']);
+    Route::get('order/dikirim', [OrderController::class, 'dikirim']);
+    Route::get('order/diterima', [OrderController::class, 'diterima']);
+    Route::get('order/selesai', [OrderController::class, 'selesai']);
+    Route::post('order/ubah_status/{order}', [OrderController::class, 'ubah_status']);
 
-    Route::get('reports',[OrderController::class, 'index']);
+    Route::get('reports', [OrderController::class, 'index']);
 });
