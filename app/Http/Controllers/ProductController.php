@@ -11,6 +11,18 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller implements HasMiddleware
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+    }
+
+    public function list()
+    {
+        return view('product.index');
+    }
+
     /**
      * Get the middleware that should be assigned to the controller.
      */
@@ -80,6 +92,7 @@ class ProductController extends Controller implements HasMiddleware
         $product = Product::create($input);
 
         return response()->json([
+            'succsess' => true,
             'data' => $product
         ]);
     }
@@ -90,6 +103,7 @@ class ProductController extends Controller implements HasMiddleware
     public function show(Product $products)
     {
         return response()->json([
+            'succsess' => true,
             'data' => $products
         ]);
     }
@@ -146,6 +160,7 @@ class ProductController extends Controller implements HasMiddleware
         $product->update($input);
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Category updated successfully',
             'data' => $product
         ]);
@@ -161,6 +176,7 @@ class ProductController extends Controller implements HasMiddleware
         $product->delete();
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Category deleted successfully'
         ]);
     }

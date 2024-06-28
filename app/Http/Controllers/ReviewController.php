@@ -11,9 +11,20 @@ use Illuminate\Support\Facades\File;
 
 class ReviewController extends Controller implements HasMiddleware
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+    }
+
     /**
      * Get the middleware that should be assigned to the controller.
      */
+    public function list()
+    {
+        return view('review.index');
+    }
     public static function middleware(): array
     {
         return [
@@ -66,6 +77,7 @@ class ReviewController extends Controller implements HasMiddleware
         $Review = Review::create($input);
 
         return response()->json([
+            'succsess' => true,
             'data' => $Review
         ]);
     }
@@ -76,6 +88,7 @@ class ReviewController extends Controller implements HasMiddleware
     public function show(Review $Review)
     {
         return response()->json([
+            'succsess' => true,
             'data' => $Review
         ]);
     }
@@ -114,6 +127,7 @@ class ReviewController extends Controller implements HasMiddleware
         $Review->update($input);
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Review updated successfully',
             'data' => $Review
         ]);
@@ -129,6 +143,7 @@ class ReviewController extends Controller implements HasMiddleware
         $Review->delete();
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Review deleted successfully'
         ]);
     }

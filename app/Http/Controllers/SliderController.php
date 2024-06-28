@@ -11,14 +11,23 @@ use Illuminate\Support\Facades\File;
 
 class SliderController extends Controller implements HasMiddleware
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+    }
+
     public static function middleware(): array
     {
         return [
             new Middleware('auth:api', except: ['index']),
         ];
+    }
+
+    public function list()
+    {
+        $Sliders = Slider::all();
+        return view('slider.index',compact('sliders') );
     }
 
     /**
@@ -28,6 +37,7 @@ class SliderController extends Controller implements HasMiddleware
     {
         $slider = Slider::all();
         return response()->json([
+            'succsess' => true,
             'data' => $slider
         ]);
     }
@@ -71,6 +81,7 @@ class SliderController extends Controller implements HasMiddleware
         $slider = Slider::create($input);
 
         return response()->json([
+            'succsess' => true,
             'data' => $slider
         ]);
     }
@@ -81,6 +92,7 @@ class SliderController extends Controller implements HasMiddleware
     public function show(Slider $slider)
     {
         return response()->json([
+            'succsess' => true,
             'data' => $slider
         ]);
     }
@@ -127,6 +139,7 @@ class SliderController extends Controller implements HasMiddleware
         $slider->update($input);
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Slider updated successfully',
             'data' => $slider
         ]);
@@ -142,6 +155,7 @@ class SliderController extends Controller implements HasMiddleware
         $slider->delete();
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Slider deleted successfully'
         ]);
     }

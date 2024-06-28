@@ -11,6 +11,19 @@ use Illuminate\Support\Facades\File;
 
 class TestimoniController extends Controller implements HasMiddleware
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+    }
+
+
+    public function list()
+    {
+        return view('testimoni.index');
+    }
+
     /**
      * Get the middleware that should be assigned to the controller.
      */
@@ -71,6 +84,7 @@ class TestimoniController extends Controller implements HasMiddleware
         $Testimoni = Testimoni::create($input);
 
         return response()->json([
+            'succsess' => true,
             'data' => $Testimoni
         ]);
     }
@@ -81,6 +95,7 @@ class TestimoniController extends Controller implements HasMiddleware
     public function show(Testimoni $Testimoni)
     {
         return response()->json([
+            'succsess' => true,
             'data' => $Testimoni
         ]);
     }
@@ -127,6 +142,7 @@ class TestimoniController extends Controller implements HasMiddleware
         $Testimoni->update($input);
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Testimoni updated successfully',
             'data' => $Testimoni
         ]);
@@ -142,6 +158,7 @@ class TestimoniController extends Controller implements HasMiddleware
         $Testimoni->delete();
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Testimoni deleted successfully'
         ]);
     }
