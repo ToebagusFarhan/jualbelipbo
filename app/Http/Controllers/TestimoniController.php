@@ -80,7 +80,9 @@ class TestimoniController extends Controller implements HasMiddleware
      */
     public function show(Testimoni $Testimoni)
     {
-        //
+        return response()->json([
+            'data' => $Testimoni
+        ]);
     }
 
     /**

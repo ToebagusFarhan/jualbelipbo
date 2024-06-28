@@ -54,7 +54,8 @@ class MemberController extends Controller implements HasMiddleware
             'detail_alamat' => 'required',
             'no_hp' => 'required',
             'email' => 'required',
-            'password' => 'required',
+            'password' => 'required|same:konfirmasi_password',
+            'konfirmasi_password' => 'required|same:password',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -64,7 +65,7 @@ class MemberController extends Controller implements HasMiddleware
         }
 
         $input = $request->all();
-
+        $input["password"] = bcrypt($request->password);
         $Member = Member::create($input);
 
         return response()->json([
@@ -77,7 +78,9 @@ class MemberController extends Controller implements HasMiddleware
      */
     public function show(Member $Member)
     {
-        //
+        return response()->json([
+            'data' => $Member
+        ]);
     }
 
     /**

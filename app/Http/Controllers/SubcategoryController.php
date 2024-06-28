@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -12,9 +13,11 @@ use Illuminate\Support\Facades\File;
 class SubcategoryController extends Controller implements HasMiddleware
 {
 
-    /**
-     * Get the middleware that should be assigned to the controller.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+    }
     public static function middleware(): array
     {
         return [
@@ -23,12 +26,14 @@ class SubcategoryController extends Controller implements HasMiddleware
     }
 
 
-    /**
-     * Display a listing of the resource.
-     */
+    public function list()
+    {
+        $categories = Category::all();
+        return view('subkategori.index',compact('categories') );
+    }
     public function index()
     {
-        $subcategories = Subcategory::all();
+        $subcategories = Subcategory::with('category')->get();
         return response()->json([
             'data' => $subcategories
         ]);
@@ -72,6 +77,7 @@ class SubcategoryController extends Controller implements HasMiddleware
         $subcategory = Subcategory::create($input);
 
         return response()->json([
+            'succsess' => true,
             'data' => $subcategory
         ]);
     }
@@ -81,7 +87,9 @@ class SubcategoryController extends Controller implements HasMiddleware
      */
     public function show(Subcategory $subcategory)
     {
-        //
+        return response()->json([
+            'data' => $subcategory
+        ]);
     }
 
     /**
@@ -125,6 +133,7 @@ class SubcategoryController extends Controller implements HasMiddleware
         $subcategory->update($input);
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Category updated successfully',
             'data' => $subcategory
         ]);
@@ -139,6 +148,7 @@ class SubcategoryController extends Controller implements HasMiddleware
         $subcategory->delete();
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Category deleted successfully'
         ]);
     }
