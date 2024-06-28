@@ -89,7 +89,9 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function show(Product $products)
     {
-        //
+        return response()->json([
+            'data' => $products
+        ]);
     }
 
     /**

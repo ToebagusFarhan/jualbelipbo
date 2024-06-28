@@ -85,7 +85,9 @@ class OrderController extends Controller implements HasMiddleware
      */
     public function show(Order $Order)
     {
-        //
+        return response()->json([
+            'data' => $Order
+        ]);     
     }
 
     /**

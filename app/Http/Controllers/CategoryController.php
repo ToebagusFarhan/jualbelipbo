@@ -11,19 +11,23 @@ use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller implements HasMiddleware
 {
-    /**
-     * Get the middleware that should be assigned to the controller.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'delete']);
+    }
     public static function middleware(): array
     {
         return [
-            new Middleware('auth:api', except: ['index']),
+            new Middleware('auth', except: ['index']),
         ];
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    public function list()
+    {
+        return view('kategori.index');
+    }
+
     public function index()
     {
         $categories = Category::all();
@@ -71,6 +75,8 @@ class CategoryController extends Controller implements HasMiddleware
         $category = Category::create($input);
 
         return response()->json([
+            'succsess' => true,
+            
             'data' => $category
         ]);
     }
@@ -80,7 +86,9 @@ class CategoryController extends Controller implements HasMiddleware
      */
     public function show(Category $category)
     {
-        //
+        return response()->json([
+            'data' => $category
+        ]);
     }
 
     /**
@@ -104,6 +112,7 @@ class CategoryController extends Controller implements HasMiddleware
 
         if ($validator->fails()) {
             return response()->json([
+                'succsess' => true,
                 'message' => 'Validation error',
                 'errors' => $validator->errors()
             ], 422);
@@ -125,6 +134,7 @@ class CategoryController extends Controller implements HasMiddleware
         $category->update($input);
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Category updated successfully',
             'data' => $category
         ]);
@@ -135,11 +145,12 @@ class CategoryController extends Controller implements HasMiddleware
      */
     public function destroy(Category $category)
     {
-
+        
         File::delete('uploads/' . $category->gambar);
         $category->delete();
 
         return response()->json([
+            'succsess' => true,
             'message' => 'Category deleted successfully'
         ]);
     }

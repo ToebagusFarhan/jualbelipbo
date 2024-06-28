@@ -75,7 +75,9 @@ class ReviewController extends Controller implements HasMiddleware
      */
     public function show(Review $Review)
     {
-        //
+        return response()->json([
+            'data' => $Review
+        ]);
     }
 
     /**
