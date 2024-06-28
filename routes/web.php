@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SliderController;
@@ -12,9 +13,7 @@ use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 // Route::post('login', [AuthController::class, 'login_member']);
 // Route::post('logout', [AuthController::class, 'logout_member']);
@@ -34,3 +33,32 @@ Route::get('/review', [ReviewController::class, 'list']);
 
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/products/{category}', [HomeController::class, 'products']);
+Route::get('/product/{id}', [HomeController::class, 'product']);
+Route::get('/cart', [HomeController::class, 'cart']);
+Route::get('/checkout', [HomeController::class, 'checkout']);
+Route::get('/orders', [HomeController::class, 'orders']);
+Route::get('/about', [HomeController::class, 'about']);
+Route::get('/contact', [HomeController::class, 'contact']);
+Route::get('/faq', [HomeController::class, 'faq']);
+
+
